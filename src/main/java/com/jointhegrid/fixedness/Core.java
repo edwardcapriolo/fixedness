@@ -2,6 +2,7 @@ package com.jointhegrid.fixedness;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
 public class Core {
@@ -22,6 +23,30 @@ public class Core {
       return c;
     }
   }
+  
+  public static class lazyrange extends C.R3<Iterable<Integer>, Integer, Integer, Integer> {
+   public Iterable<Integer> call(final Integer start, final Integer end, final Integer step) {
+      Iterable<Integer> c = new Iterable<Integer>(){
+        public Iterator<Integer> iterator() {
+          return new Iterator<Integer>(){
+            int x = start;
+            public boolean hasNext() {
+              return x<end;
+            }
+            public Integer next() {
+              int ret = x;
+              x=x+step;
+              return ret;
+            }
+            public void remove() {
+            }
+          };
+        }
+      };
+      return c;
+    }
+  }
+  
 
   public static class mapper<KEY, VALUE> extends
           C.R2<Iterable<VALUE>, mapFx<KEY, VALUE>, Iterable<KEY>> {

@@ -2,6 +2,7 @@ package com.jointhegrid.fixedness;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Iterator;
 
 import junit.framework.Assert;
 
@@ -33,4 +34,11 @@ public class CTest {
     Assert.assertEquals(Arrays.asList(1,2,3), new Core.range().call(1, 4, 1) );
   }
   
+  @Test
+  public void testLazyRange(){
+    Iterable<Integer> it = new Core.lazyrange().call(1, Integer.MAX_VALUE, 1) ;
+    Iterator<Integer> i = it.iterator();
+    Assert.assertEquals(Integer.valueOf(1), i.next() );
+    Assert.assertEquals(Integer.valueOf(2), i.next() );
+  }
 }
