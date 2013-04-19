@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 public class Core {
 
@@ -47,6 +48,29 @@ public class Core {
     }
   }
   
+  public static class take<T> extends C.R2<Iterable<T>, Integer, Iterable<T>>{
+    public Iterable<T> call(final Integer p1, final Iterable<T> p2) {
+      return new Iterable<T>(){
+        public Iterator<T> iterator() {
+          return new Iterator<T>(){
+            int taken=0;
+            Iterator<T> i = p2.iterator();    
+            public boolean hasNext() {
+              return taken< p1 && i.hasNext();
+            }
+            public T next() {
+              if (hasNext()){
+                taken++;
+                return i.next();
+              } else throw new NoSuchElementException("size of take is "+p1+" your trying to take element " +(taken+1));
+            }
+            public void remove() {
+            }    
+          };
+        }        
+      };
+    }    
+  }
 
   public static class mapper<KEY, VALUE> extends
           C.R2<Iterable<VALUE>, mapFx<KEY, VALUE>, Iterable<KEY>> {

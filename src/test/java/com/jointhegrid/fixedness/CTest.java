@@ -3,11 +3,13 @@ package com.jointhegrid.fixedness;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 import junit.framework.Assert;
 
 import org.junit.Test;
 import static com.jointhegrid.fixedness.Core.*;
+import static org.junit.Assert.fail;
 
 public class CTest {
 
@@ -40,5 +42,26 @@ public class CTest {
     Iterator<Integer> i = it.iterator();
     Assert.assertEquals(Integer.valueOf(1), i.next() );
     Assert.assertEquals(Integer.valueOf(2), i.next() );
+  }
+  
+  @Test
+  public void takeTest(){
+    //and dont fail!
+    Iterable<Integer> i = new range().call(1, 10, 1);
+    take<Integer> t = new take<Integer>();
+    Iterator<Integer> res = t.call(4,i).iterator();
+    Assert.assertEquals(Integer.valueOf(1), res.next());
+    Assert.assertEquals(Integer.valueOf(2), res.next());
+    Assert.assertEquals(Integer.valueOf(3), res.next());
+    Assert.assertEquals(Integer.valueOf(4), res.next());
+    Assert.assertEquals(false, res.hasNext());
+    
+    try {
+      Assert.assertEquals(Integer.valueOf(5), res.next());
+      Assert.fail();
+    } catch (NoSuchElementException e){ }
+    
+    
+    
   }
 }
