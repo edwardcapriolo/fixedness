@@ -60,8 +60,13 @@ public class CTest {
       Assert.assertEquals(Integer.valueOf(5), res.next());
       Assert.fail();
     } catch (NoSuchElementException e){ }
-    
-    
-    
+  }
+  
+  
+  @Test
+  public void motivateTest(){
+    Iterable<Integer> i = new range().call(1, 4, 1);
+    motivate<Integer> m = new motivate<Integer>();
+    Assert.assertEquals(Arrays.asList(1,2,3), m.call(i));
   }
 }

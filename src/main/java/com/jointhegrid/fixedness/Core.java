@@ -25,6 +25,17 @@ public class Core {
     }
   }
   
+  //if your sequence is lazy you have to motivate it into a non-lazy one
+  public static class motivate <T> extends C.R1<List<T>, Iterable<T>>{
+    public List<T> call(Iterable<T> p1) {
+      List<T> res = new ArrayList<T>();
+      for (T p: p1){
+        res.add(p);
+      }
+      return res;
+    } 
+  }
+  
   public static class lazyrange extends C.R3<Iterable<Integer>, Integer, Integer, Integer> {
    public Iterable<Integer> call(final Integer start, final Integer end, final Integer step) {
       Iterable<Integer> c = new Iterable<Integer>(){
@@ -62,7 +73,7 @@ public class Core {
               if (hasNext()){
                 taken++;
                 return i.next();
-              } else throw new NoSuchElementException("size of take is "+p1+" your trying to take element " +(taken+1));
+              } else throw new NoSuchElementException("size of take is "+p1+". Your trying to take element " +(taken+1));
             }
             public void remove() {
             }    
