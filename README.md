@@ -1,7 +1,7 @@
 fixedness
 =========
 
-Functional programming and closures hacks for Java
+Functional programming and closure hacks for Java
 
 How does it work
 ===========
