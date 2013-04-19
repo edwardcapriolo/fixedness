@@ -1,7 +1,36 @@
 fixedness
 =========
 
-Functional programming and closures hacks for Java
+Functional programming and closure hacks for Java
+
+How does it work
+===========
+
+    public static class mapper<KEY,VALUE> extends C.R2<Iterable<VALUE>, mapFx<KEY,VALUE>,Iterable<KEY>> {
+      public Iterable<VALUE> call(mapFx<KEY, VALUE> p1, Iterable<KEY> p2) {
+        List<VALUE> results = new ArrayList<VALUE>(); 
+        for (KEY p: p2){
+          results.add( p1.call(p) );
+        }
+        return results;
+      }
+    }
+  
+    public abstract static class mapFx<KEY,VALUE> extends C.R1<VALUE,KEY> {
+      public abstract VALUE call(KEY p1);     
+    }
+    
+    @Test
+    public void testMap(){
+      mapper<Integer,Integer> mpr = new mapper<Integer,Integer>();
+      mapFx<Integer,Integer> mfx = new mapFx<Integer,Integer>(){
+        public Integer call(Integer p1) {
+          return p1*2;
+        }
+      };
+      Collection<Integer> ints = Arrays.asList(3,4,5);
+      Assert.assertEquals(Arrays.asList(6,8,10), mpr.call(mfx, ints) );
+    }
 
 Inspiration
 ============
