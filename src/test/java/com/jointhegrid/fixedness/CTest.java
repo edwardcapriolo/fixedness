@@ -28,4 +28,9 @@ public class CTest {
     Assert.assertEquals(Arrays.asList(6,8,10), mpr.call(mfx, ints) );
   }
 
+  @Test
+  public void testRange(){
+    Assert.assertEquals(Arrays.asList(1,2,3), new Core.range().call(1, 4, 1) );
+  }
+  
 }
