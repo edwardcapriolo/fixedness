@@ -6,6 +6,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+import com.jointhegrid.fixedness.C.R1;
+import com.jointhegrid.fixedness.C.R2;
+
 public class Core {
 
   public static class println<T, Returns> extends C.R1<Returns, T> {
@@ -47,7 +50,7 @@ public class Core {
             }
             public Integer next() {
               int ret = x;
-              x=x+step;
+              x = x+step;
               return ret;
             }
             public void remove() {
@@ -93,9 +96,30 @@ public class Core {
       return results;
     }
   }
-
+  
+  
+  
   public abstract static class mapFx<KEY, VALUE> extends C.R1<VALUE, KEY> {
     public abstract VALUE call(KEY p1);
   }
 
+  public abstract static class reduceFx<KEY, VALUE> extends C.R1<VALUE, KEY> {
+    public abstract VALUE call(KEY p1);
+  }
+  
+  public static class reducer <T> extends C.R2<T, C.R2<T, T, T>, Iterable<T> > {
+    T sum;
+    Iterator<T> it;
+    public T call(R2<T, T, T> p1, Iterable<T> p2) {
+      it = p2.iterator();
+      while (it.hasNext()){
+        if (sum == null){
+          sum = it.next();
+        } else {
+          sum = p1.call(sum, it.next());
+        }
+      }
+      return sum;
+    }
+  }
 }
