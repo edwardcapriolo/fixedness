@@ -3,6 +3,7 @@ package com.jointhegrid.fixedness;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 import junit.framework.Assert;
@@ -30,6 +31,19 @@ public class CTest {
     Collection<Integer> ints = Arrays.asList(3,4,5);
     Assert.assertEquals(Arrays.asList(6,8,10), mpr.call(mfx, ints) );
   }
+  
+  @Test
+  public void reduceTest(){
+    Iterable<Integer> i = Arrays.asList(4,5,6);
+    reducer<Integer> reducer = new reducer<Integer>();
+    C.R2<Integer, Integer, Integer> sum = new C.R2<Integer, Integer, Integer> (){
+      public Integer call(Integer p1, Integer p2) {
+        return p1 + p2;
+      }
+    };
+    Assert.assertEquals(Integer.valueOf(15), reducer.scall(sum, i));
+  }
+  
 
   @Test
   public void testRange(){
@@ -69,4 +83,23 @@ public class CTest {
     motivate<Integer> m = new motivate<Integer>();
     Assert.assertEquals(Arrays.asList(1,2,3), m.call(i));
   }
+  
+ @Test
+ public void rsum(){
+   List<Integer> x = Arrays.asList(4,5,6);
+   Assert.assertEquals(15, sum(x));
+ }
+ 
+ public int sum(Iterable<Integer> i  ){
+   Iterator<Integer> j = i.iterator();
+   return sum (j);
+ }
+ 
+ public int sum(Iterator<Integer> i){
+  if (i.hasNext()){
+    return i.next()+sum(i);
+  }
+  return 0;
+ }
+ 
 }
